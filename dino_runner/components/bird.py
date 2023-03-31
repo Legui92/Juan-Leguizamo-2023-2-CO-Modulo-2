@@ -14,5 +14,8 @@ class Bird(Sprite):
     def update(self):
         pass
 
+    def move(self):
+        pass
+
     def draw(self, screen):
         screen.blit(self.image, (self.bird_rect.x , self.bird_rect.y))
