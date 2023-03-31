@@ -1,6 +1,7 @@
 import pygame
 
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.components.dinosaur import Dinosaur
 
 
 class Game:
@@ -14,6 +15,7 @@ class Game:
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
+        self.player = Dinosaur()
 
     def run(self):
         # Game loop: events - update - draw
@@ -34,10 +36,12 @@ class Game:
 
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
+        self.screen.fill((255, 255, 255))  #RGB(0,0,0)
         self.draw_background()
+        self.player.draw(self.screen) # llamo al metodo player de dinosaur para dibujarlo 
         pygame.display.update()
         pygame.display.flip()
+
 
     def draw_background(self):
         image_width = BG.get_width()
@@ -46,4 +50,4 @@ class Game:
         if self.x_pos_bg <= -image_width:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
-        self.x_pos_bg -= self.game_speed
+        self.x_pos_bg -= self.game_speed #hace avanzar el fondo
