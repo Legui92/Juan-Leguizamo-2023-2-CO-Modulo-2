@@ -35,14 +35,16 @@ class Game:
                 self.playing = False
 
     def update(self):
-        pass
+        userInput = pygame.key.get_pressed()
+        self.player.update(userInput)
+        self.birdObstacle.update()
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))  #RGB(0,0,0)
         self.draw_background()
         self.player.draw(self.screen) # llamo al metodo player de dinosaur para dibujarlo 
-        self.birdObstacle.draw(self.screen)
+        self.birdObstacle.draw(self.screen) #llamo al metodo birdObstacle para dibujarlo
         pygame.display.update()
         pygame.display.flip()
 
