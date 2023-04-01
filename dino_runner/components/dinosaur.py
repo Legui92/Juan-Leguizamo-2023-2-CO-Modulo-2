@@ -7,7 +7,7 @@ class Dinosaur(Sprite):
     POS_X = 80
     POS_Y = 310
     JUMP_SPEED = 8.5
-    POS_Y_DUCK = 340
+    POS_Y_DUCK = 343
 
     def __init__(self):
         self.image_run = RUNNING
@@ -69,7 +69,11 @@ class Dinosaur(Sprite):
             self.jump_speed = self.JUMP_SPEED
 
     def duck(self):
-        pass
+        self.image = DUCKING[0] if self.step_index < 5 else DUCKING[1]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.POS_X
+        self.dino_rect.y = self.POS_Y_DUCK
+        self.step_index +=1
 
 
     def draw(self, screen):
