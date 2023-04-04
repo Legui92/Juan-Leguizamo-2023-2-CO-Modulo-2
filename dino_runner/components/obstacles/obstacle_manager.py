@@ -1,14 +1,18 @@
-import pygame
-from dino_runner.components.obstacles.smallCactus import Cactus
-from dino_runner.utils.constants import SMALL_CACTUS,LARGE_CACTUS,BIRD
+import pygame,random
+from dino_runner.components.obstacles.smallCactus import SmallCactus
+from dino_runner.components.obstacles.largeCactus import LargeCactus
+from dino_runner.components.obstacles.bird import Bird
+from dino_runner.utils.constants import SMALL_CACTUS , BIRD
+from dino_runner.utils.constants import LARGE_CACTUS
 
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
     
     def generate_obstacle(self):
-        obstacle = Cactus(SMALL_CACTUS)
-        return obstacle
+        obstacle = [SmallCactus(SMALL_CACTUS),LargeCactus(LARGE_CACTUS),Bird(BIRD)]
+        randomObstacle=random.choice(obstacle)
+        return randomObstacle
 
     def update(self, game):
         if len(self.obstacles) == 0:
@@ -19,7 +23,7 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
                 print("Collision")
-                pygame.time.delay(1000)
+                pygame.time.delay(5000)
                 game.playing = False
                 break
 

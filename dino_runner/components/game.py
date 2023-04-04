@@ -18,7 +18,6 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.player = Dinosaur()
-        self.bird = Bird()
         self.obstacle_manager = ObstacleManager()
 
     def run(self):
@@ -38,7 +37,6 @@ class Game:
     def update(self):
         userInput = pygame.key.get_pressed()
         self.player.update(userInput)
-        #self.bird.update()
         self.obstacle_manager.update(self)
 
     def draw(self):

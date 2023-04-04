@@ -18,7 +18,6 @@ class Dinosaur(Sprite):
         self.dino_run = True
         self.dino_jump = False
         self.jump_speed = self.JUMP_SPEED
-
         #Incializo la image con la imagen 1 de run
         self.image = self.image_run[0]
         self.dino_rect = self.image.get_rect() #Creo un rectangulo para las colisiones
