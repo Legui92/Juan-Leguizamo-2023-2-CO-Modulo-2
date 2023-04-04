@@ -39,12 +39,14 @@ class Dinosaur(Sprite):
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
-        elif not self.dino_jump:
-            self.dino_run = True    
-        if userInput[pygame.K_DOWN] and not self.dino_jump:
+        
+        elif userInput[pygame.K_DOWN]: #and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = True
 
+        elif not self.dino_jump:
+            self.dino_run = True    
+        
             
         if self.step_index >= 10:
             self.step_index = 0
