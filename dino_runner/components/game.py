@@ -5,6 +5,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.cloud import Cloud
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.menu import Menu
+from dino_runner.components.print import Print_message
 
 class Game:
     GAME_SPEED = 20
@@ -22,9 +23,11 @@ class Game:
         self.obstacle_manager = ObstacleManager()
         self.cloud = Cloud()
         self.menu = Menu('Press any key to start...', self.screen)
+        self.print_message= Print_message('Press any key to restart...',self.screen)
         self.runnig = False
         self.death_count = 0
         self.score = 0
+        self.high_score = 0
 
     def execute(self):
         self.runnig = True
@@ -67,7 +70,6 @@ class Game:
         self.cloud.draw(self.screen) # llamo al metodo player de dinosaur para dibujarlo 
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
-        #self.bird.draw(self.screen) #llamo al metodo birdObstacle para dibujarlo
         pygame.display.update()
         pygame.display.flip()
         
@@ -90,16 +92,26 @@ class Game:
         if self.death_count ==0:
             self.menu.draw(self.screen)
         else:
-            self.menu.update_message('new message')
+            self.menu.update_message('Game over. Press any key to restart...')
+            #High score print
+            self.print_message.update_message(f'Your score: {self.score}',550,370)# print(message, pos_x,pos_y)
+            self.print_message.draw(self.screen)
+            self.print_message.update_message(f'Highest score: {self.high_score}',550,410)
+            self.print_message.draw(self.screen)
+            self.print_message.update_message(f'Total deaths: {self.death_count}',550,450)
+            self.print_message.draw(self.screen)
             self.menu.draw(self.screen)
         self.screen.blit(ICON,(half_screen_width-50,half_screen_height-140))
+        self.print_message.update(self)
         self.menu.update(self)
+
 
     def update_score(self):
         self.score +=1
-
         if self.score % 100 == 0 and self.game_speed < 500:
-            self.game_speed += 5
+            self.game_speed += 2
+        if self.score > self.high_score:
+            self.high_score = self.score
     
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 30)
