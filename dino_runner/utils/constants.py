@@ -16,6 +16,11 @@ RUNNING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
 ]
 
+RUNNING_PLUMA= [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1Pluma.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2Pluma.png")),
+]
+
 RUNNING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1Shield.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
@@ -26,9 +31,16 @@ RUNNING_HAMMER = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
 ]
 
+RUNNING_EXCAVADORA = [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1Excavadora.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2Excavadora.png")),
+]
+
 JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJump.png"))
 JUMPING_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpShield.png"))
 JUMPING_HAMMER = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpHammer.png"))
+JUMPING_PLUMA = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpPluma.png"))
+JUMPING_EXCAVADORA = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpExcavadora.png"))
 
 DUCKING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1.png")),
@@ -38,6 +50,16 @@ DUCKING = [
 DUCKING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Shield.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
+]
+DUCKING_EXCAVADORA = [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Excavadora.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2Excavadora.png")),
+]
+
+
+DUCKING_PLUMA = [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Pluma.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2Pluma.png")),
 ]
 
 DUCKING_HAMMER = [
@@ -64,6 +86,9 @@ BIRD = [
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
+PLUMA = pygame.image.load(os.path.join(IMG_DIR, 'Other/pluma.png'))
+EXCAVADORA = pygame.image.load(os.path.join(IMG_DIR, 'Other/excavadora.png'))
+
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
@@ -74,3 +99,7 @@ DEFAULT_TYPE = "default"
 FONT_STYLE = 'freesansbold.ttf'
 
 SHIELD_TYPE = "shield"
+
+PLUMA_TYPE = "pluma"
+
+EXCAVADORA_TYPE = "excavadora"

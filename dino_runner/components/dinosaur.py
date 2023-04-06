@@ -1,15 +1,19 @@
 import pygame
 from pygame.sprite import Sprite
-from  dino_runner.utils.constants import RUNNING,DEFAULT_TYPE, DUCKING, JUMPING, SHIELD_TYPE, RUNNING_SHIELD,DUCKING_SHIELD,JUMPING_SHIELD
+from  dino_runner.utils.constants import RUNNING,DEFAULT_TYPE, DUCKING, JUMPING, SHIELD_TYPE,EXCAVADORA_TYPE,RUNNING_EXCAVADORA,DUCKING_EXCAVADORA,JUMPING_EXCAVADORA, RUNNING_SHIELD,DUCKING_SHIELD,JUMPING_SHIELD,PLUMA_TYPE,DUCKING_PLUMA,RUNNING_PLUMA,JUMPING_PLUMA
 
 
-RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE:RUNNING_SHIELD}
-JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
-DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
+RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE:RUNNING_SHIELD, PLUMA_TYPE:RUNNING_PLUMA,EXCAVADORA_TYPE:RUNNING_EXCAVADORA }
+JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, PLUMA_TYPE: JUMPING_PLUMA,EXCAVADORA_TYPE:JUMPING_EXCAVADORA}
+DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, PLUMA_TYPE: DUCKING_PLUMA,EXCAVADORA_TYPE:DUCKING_EXCAVADORA}
+
+
 
 class Dinosaur(Sprite):
     POS_X = 80
     POS_Y = 310
+    POS_X_EXCAVANDO = 80
+    POS_Y_EXCAVANDO = 410
     JUMP_SPEED = 8.5
     POS_Y_DUCK = 343
 
@@ -21,6 +25,7 @@ class Dinosaur(Sprite):
         self.dino_duck = False
         self.dino_run = True
         self.dino_jump = False
+        self.dino_excavando = False
         self.jump_speed = self.JUMP_SPEED
         #Incializo la image con la imagen 1 de run
         self.image = RUN_IMG[self.type][0]
@@ -39,12 +44,21 @@ class Dinosaur(Sprite):
             self.jump()
         elif self.dino_duck:
             self.duck()
+        elif self.dino_excavando:
+            self.excavando()
         
         if userInput[pygame.K_UP] and not self.dino_jump:
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
-        
+            self.dino_excavando = False
+
+        elif userInput[pygame.K_RCTRL] and self.type ==EXCAVADORA_TYPE:
+            self.dino_run = False
+            self.dino_excavando = True
+            self.dino_duck = False
+            self.dino_jump = False
+
         elif userInput[pygame.K_DOWN]: #and not self.dino_jump:
             self.dino_run = False
             self.dino_duck = True
@@ -62,6 +76,13 @@ class Dinosaur(Sprite):
         self.dino_rect = self.image.get_rect()
         self.dino_rect.x = self.POS_X
         self.dino_rect.y = self.POS_Y
+        self.step_index +=1
+
+    def excavando(self):
+        self.image = RUN_IMG[self.type][self.step_index//5]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.POS_X_EXCAVANDO
+        self.dino_rect.y = self.POS_Y_EXCAVANDO
         self.step_index +=1
 
 
@@ -90,6 +111,7 @@ class Dinosaur(Sprite):
         self.dino_duck = False
         self.dino_run = True
         self.dino_jump = False
+        self.dino_excavando = False
         self.jump_speed = self.JUMP_SPEED
         #Incializo la image con la imagen 1 de run
         self.image = RUN_IMG[self.type][0]

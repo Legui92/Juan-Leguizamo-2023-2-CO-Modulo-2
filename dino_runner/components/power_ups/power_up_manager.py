@@ -2,6 +2,8 @@ import pygame
 import random
 
 from dino_runner.components.power_ups.shield import Shield
+from dino_runner.components.power_ups.pluma import Pluma
+from dino_runner.components.power_ups.excavadora import Excavadora
 
 
 class PowerUpManager:
@@ -11,7 +13,8 @@ class PowerUpManager:
         self.duration = random.randint(3,5)
 
     def generate_power_up(self):
-        power_up = Shield()
+        possible_power_ups =[Shield(), Pluma(),Excavadora()]
+        power_up = random.choice(possible_power_ups)
         self.when_appears += random.randint(150,250)
         self.power_ups.append(power_up)
 

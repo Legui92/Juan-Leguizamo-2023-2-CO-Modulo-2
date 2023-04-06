@@ -119,6 +119,8 @@ class Game:
         text = font.render(f'score: {self.score}', True,(0,0,0))
         text_rect = text.get_rect()
         text_rect.center=(1000,50)
+        self.print_message.update_message(f'High score: {self.high_score}',970,90) # print(message, pos_x,pos_y)
+        self.print_message.draw(self.screen)
         self.screen.blit(text, text_rect)
 
 
