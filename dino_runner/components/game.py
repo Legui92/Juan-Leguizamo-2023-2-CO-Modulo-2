@@ -1,11 +1,12 @@
 import pygame
 
-from dino_runner.utils.constants import BG,FONT_STYLE ,ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG,DEFAULT_TYPE,FONT_STYLE ,ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.cloud import Cloud
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.menu import Menu
 from dino_runner.components.print import Print_message
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 class Game:
     GAME_SPEED = 20
@@ -28,6 +29,7 @@ class Game:
         self.death_count = 0
         self.score = 0
         self.high_score = 0
+        self.power_up_manager = PowerUpManager()
 
     def execute(self):
         self.runnig = True
@@ -39,10 +41,7 @@ class Game:
         
 
     def run(self):
-        self.obstacle_manager.reset_obstacles()
-        self.player.reset_dinosaur()
-        self.score = 0
-        self.game_speed = self.GAME_SPEED
+        self.reset_game()
         # Game loop: events - update - draw
         self.playing = True
         while self.playing:
@@ -60,6 +59,7 @@ class Game:
         self.player.update(userInput)
         self.cloud.update(self.game_speed)#########
         self.obstacle_manager.update(self)
+        self.power_up_manager.update(self)
         self.update_score()
 
     def draw(self):
@@ -69,9 +69,10 @@ class Game:
         self.player.draw(self.screen)
         self.cloud.draw(self.screen) # llamo al metodo player de dinosaur para dibujarlo 
         self.obstacle_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen)
         self.draw_score()
+        self.draw_power_up_time()
         pygame.display.update()
-        pygame.display.flip()
         
 
 
@@ -94,13 +95,13 @@ class Game:
         else:
             self.menu.update_message('Game over. Press any key to restart...')
             #High score print
-            self.print_message.update_message(f'Your score: {self.score}',550,370)# print(message, pos_x,pos_y)
+            self.print_message.update_message(f'Your score: {self.score}',550,370) # print(message, pos_x,pos_y)
             self.print_message.draw(self.screen)
             self.print_message.update_message(f'Highest score: {self.high_score}',550,410)
             self.print_message.draw(self.screen)
             self.print_message.update_message(f'Total deaths: {self.death_count}',550,450)
-            self.print_message.draw(self.screen)
             self.menu.draw(self.screen)
+            self.print_message.draw(self.screen)
         self.screen.blit(ICON,(half_screen_width-50,half_screen_height-140))
         self.print_message.update(self)
         self.menu.update(self)
@@ -120,3 +121,22 @@ class Game:
         text_rect.center=(1000,50)
         self.screen.blit(text, text_rect)
 
+
+    def reset_game(self):
+        self.player.reset_dinosaur()
+        self.power_up_manager.reset()
+        self.obstacle_manager.reset_obstacles()
+        self.score = 0
+        self.game_speed = self.GAME_SPEED
+
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_time_up-pygame.time.get_ticks())/1000,2)
+
+            if time_to_show >=0:
+                self.print_message.update_message(f"{self.player.type.capitalize()} enabled for {time_to_show} seconds", 550,50)
+                self.print_message.draw(self.screen)
+            else:
+                self.player.has_power_up = False
+                self.player.type = DEFAULT_TYPE    

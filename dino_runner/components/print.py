@@ -24,3 +24,4 @@ class Print_message:
         self.text = self.font.render(message, True, (0,0,0))
         self.text_rect = self.text.get_rect()
         self.text_rect.center=(POS_X,POS_Y)
+        
