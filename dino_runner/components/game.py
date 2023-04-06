@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import BG,DEFAULT_TYPE,FONT_STYLE ,ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG,DEFAULT_TYPE,FONT_STYLE ,ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, SQUARE,RECTANGLE
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.cloud import Cloud
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
@@ -12,7 +12,7 @@ from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 class Game:
     GAME_SPEED = 20
-    TIME_PER_DAY = 200
+    TIME_PER_DAY = 500
 
     def __init__(self):
         self.half_screen_height = SCREEN_HEIGHT//2
@@ -123,7 +123,8 @@ class Game:
 
         if self.death_count ==0:
             self.menu.draw(self.screen)
-            self.print_rules.update_message(f'Power ups:(Shield,Feather,Excavator) ',550,370,(255,0,0)) # print(message, pos_x,pos_y)
+            self.screen.blit(RECTANGLE,(-7,410))
+            self.print_rules.update_message(f'Power-ups:(Shield,Feather,Excavator) ',550,370,(255,0,0)) # print(message, pos_x,pos_y)
             self.print_rules.draw(self.screen)
             self.print_rules.update_message(f'SHIELD your are immune for # seconds ',250,450,(0,0,0)) # print(message, pos_x,pos_y)
             self.print_rules.draw(self.screen)
@@ -131,7 +132,7 @@ class Game:
             self.print_rules.draw(self.screen)
             self.print_rules.update_message(f'EXCAVATOR DRILL press Ctrl to use for # seconds ',260,550,(0,0,0)) # print(message, pos_x,pos_y)
             self.print_rules.draw(self.screen)
-            self.print_rules.update_message(f'If you pick 10 coins the next power up',850,480,(0,0,255)) # print(message, pos_x,pos_y)
+            self.print_rules.update_message(f'If you pick 10 coins the next power-up',850,480,(0,0,255)) # print(message, pos_x,pos_y)
             self.print_rules.draw(self.screen)
             self.print_rules.update_message(f'lasts longer',850,510,(0,0,255)) # print(message, pos_x,pos_y)
             self.print_rules.draw(self.screen)

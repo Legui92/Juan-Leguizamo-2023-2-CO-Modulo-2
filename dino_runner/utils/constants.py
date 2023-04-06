@@ -89,6 +89,8 @@ SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 FEATHER = pygame.image.load(os.path.join(IMG_DIR, 'Other/pluma.png'))
 EXCAVADORA = pygame.image.load(os.path.join(IMG_DIR, 'Other/excavadora.png'))
+SQUARE = pygame.image.load(os.path.join(IMG_DIR, 'Other/square.png'))
+RECTANGLE = pygame.image.load(os.path.join(IMG_DIR, 'Other/vegeta.png'))
 
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
@@ -100,8 +102,8 @@ DEFAULT_TYPE = "default"
 
 FONT_STYLE = 'freesansbold.ttf'
 
-SHIELD_TYPE = "shield"
+SHIELD_TYPE = "Shield"
 
-PLUMA_TYPE = "pluma"
+PLUMA_TYPE = "Feather"
 
-EXCAVADORA_TYPE = "excavadora"
+EXCAVADORA_TYPE = "Excavator"
