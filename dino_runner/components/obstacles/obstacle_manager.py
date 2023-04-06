@@ -9,6 +9,7 @@ from dino_runner.utils.constants import SMALL_CACTUS,BIRD,SHIELD_TYPE,LARGE_CACT
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
+        self.death_sound= pygame.mixer.Sound("dino_runner/assets/Other/fortnite.mp3")
     
     def generate_obstacle(self):
         obstacle = [SmallCactus(SMALL_CACTUS),LargeCactus(LARGE_CACTUS),Bird(BIRD)]
@@ -28,11 +29,14 @@ class ObstacleManager:
                 elif game.player.type == PLUMA_TYPE:
                     pass
                 elif game.player.type == EXCAVADORA_TYPE:
-                    pass                 
+                    game.playing = False
+                    game.death_count +=1
+                    #self.death_sound.play()                                  
                 else:
                     pygame.time.delay(1000)
                     game.death_count +=1
                     game.playing = False
+                    #self.death_sound.play()
                     break
                     
 

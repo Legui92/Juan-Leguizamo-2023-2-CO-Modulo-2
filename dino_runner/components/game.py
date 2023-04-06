@@ -11,6 +11,7 @@ from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 class Game:
     GAME_SPEED = 20
     def __init__(self):
+        pygame.mixer.init()
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
@@ -34,8 +35,10 @@ class Game:
     def execute(self):
         self.runnig = True
         while self.runnig:
-            if not self.playing:
+            if not self.playing:              
                 self.show_menu()
+                self.player.type = DEFAULT_TYPE
+                self.player.has_power_up = False
         pygame.display.quit()
         pygame.quit()
         
@@ -43,11 +46,17 @@ class Game:
     def run(self):
         self.reset_game()
         # Game loop: events - update - draw
+        pygame.mixer.music.load("dino_runner/assets/Other/fumarato.ogg")
+        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.play(-1)
         self.playing = True
+
+
         while self.playing:
             self.events()
             self.update()
             self.draw()
+        pygame.mixer.music.stop()
 
     def events(self):
         for event in pygame.event.get():

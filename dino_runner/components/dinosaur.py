@@ -35,6 +35,8 @@ class Dinosaur(Sprite):
         self.step_index = 0
         self.has_power_up = False
         self.power_time_up = 0
+        self.jump_sound= pygame.mixer.Sound("dino_runner/assets/Other/jump.mp3")
+        
         
     
     def update(self,userInput):
@@ -48,6 +50,7 @@ class Dinosaur(Sprite):
             self.excavando()
         
         if userInput[pygame.K_UP] and not self.dino_jump:
+            self.jump_sound.play()
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
@@ -87,6 +90,7 @@ class Dinosaur(Sprite):
 
 
     def jump(self):
+        
         self.image = JUMP_IMG[self.type]###################
         self.dino_rect.y -= self.jump_speed * 4
         self.jump_speed -= 0.8

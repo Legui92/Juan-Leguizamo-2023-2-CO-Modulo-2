@@ -36,6 +36,6 @@ class PowerUpManager:
         for power_up in self.power_ups:
             power_up.draw(screen)
     
-    def reset(self):
+    def reset(self,):
         self.power_ups = []
         self.when_appears = random.randint(150, 250)

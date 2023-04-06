@@ -7,8 +7,9 @@ SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
-
+SOUN_DIR =os.path.join(os.path.dirname(__file__), "..", "assets")
 # Assets Constants
+
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
 
 RUNNING = [
@@ -91,6 +92,7 @@ EXCAVADORA = pygame.image.load(os.path.join(IMG_DIR, 'Other/excavadora.png'))
 
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
+
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
