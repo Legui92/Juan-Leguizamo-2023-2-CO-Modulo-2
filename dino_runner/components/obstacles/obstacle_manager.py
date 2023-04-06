@@ -27,7 +27,9 @@ class ObstacleManager:
                 if game.player.type == SHIELD_TYPE:
                     self.obstacles.remove(obstacle)
                 elif game.player.type == PLUMA_TYPE:
-                    pass
+                    game.playing=False
+                    game.death_count +=1
+                    self.death_sound.play()
                 elif game.player.type == EXCAVADORA_TYPE:
                     game.playing = False
                     game.death_count +=1

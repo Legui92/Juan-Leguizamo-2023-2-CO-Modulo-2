@@ -16,16 +16,14 @@ class Dinosaur(Sprite):
     POS_Y_EXCAVANDO = 410
     JUMP_SPEED = 8.5
     POS_Y_DUCK = 343
+    PLUMA_JUMP_SPEED = 8.5 *1.5
 
     def __init__(self):
         self.type = DEFAULT_TYPE
-        # self.image_run = RUN_IMG[self.type][0]################################
-        # self.image_duck = DUCK_IMG[self.type][0]
-        # self.image_jump = JUMP_IMG[self.type]
         self.dino_duck = False
         self.dino_run = True
-        self.dino_jump = False
         self.dino_excavando = False
+        self.dino_dobleJump= False
         self.jump_speed = self.JUMP_SPEED
         #Incializo la image con la imagen 1 de run
         self.image = RUN_IMG[self.type][0]
@@ -50,11 +48,19 @@ class Dinosaur(Sprite):
             self.excavando()
         
         if userInput[pygame.K_UP] and not self.dino_jump:
-            self.jump_sound.play()
-            self.dino_run = False
-            self.dino_jump = True
-            self.dino_duck = False
-            self.dino_excavando = False
+            if self.type != PLUMA_TYPE:
+                self.jump_sound.play()
+                self.dino_run = False
+                self.dino_jump = True
+                self.dino_duck = False
+                self.dino_excavando = False
+            else:
+                self.dino_run = False
+                self.dino_jump = True
+                self.dino_duck = False
+                self.dino_excavando = False
+            
+                    
 
         elif userInput[pygame.K_RCTRL] and self.type ==EXCAVADORA_TYPE:
             self.dino_run = False
@@ -89,16 +95,35 @@ class Dinosaur(Sprite):
         self.step_index +=1
 
 
-    def jump(self):
-        
-        self.image = JUMP_IMG[self.type]###################
-        self.dino_rect.y -= self.jump_speed * 4
-        self.jump_speed -= 0.8
 
-        if self.jump_speed < -self.JUMP_SPEED:
-            self.dino_rect.y = self.POS_Y
-            self.dino_jump = False
-            self.jump_speed = self.JUMP_SPEED
+    def jump(self):
+        if self.type != PLUMA_TYPE:
+            self.image = JUMP_IMG[self.type]###################
+            self.dino_rect.y -= self.jump_speed * 4
+            self.jump_speed -= 0.8
+
+            if self.jump_speed < -self.JUMP_SPEED:
+                self.dino_rect.y = self.POS_Y
+                self.dino_jump = False
+                self.jump_speed = self.JUMP_SPEED
+        else:
+            self.image = JUMP_IMG[self.type]###################
+            self.dino_rect.y -= self.jump_speed * 6
+            self.jump_speed -= 0.8
+
+            if self.jump_speed < -self.JUMP_SPEED:
+                self.dino_rect.y = self.POS_Y
+                self.dino_jump = False
+                self.jump_speed = self.JUMP_SPEED
+            # self.image = JUMP_IMG[self.type]###################
+            # self.dino_rect.y -= self.jump_speed * 4
+            # self.jump_speed -= 0.8
+
+            # if self.jump_speed < -self.PLUMA_JUMP_SPEED:
+            #     self.dino_rect.y = self.POS_Y
+            #     self.dino_jump = False
+            #     self.jump_speed = self.PLUMA_JUMP_SPEED
+
 
     def duck(self):
         self.image = DUCK_IMG[self.type][self.step_index//5]
@@ -112,6 +137,7 @@ class Dinosaur(Sprite):
         screen.blit(self.image, (self.dino_rect.x , self.dino_rect.y))
 
     def reset_dinosaur(self):
+        self.type = DEFAULT_TYPE
         self.dino_duck = False
         self.dino_run = True
         self.dino_jump = False

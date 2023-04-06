@@ -13,7 +13,8 @@ class PowerUpManager:
         self.duration = random.randint(3,5)
 
     def generate_power_up(self):
-        possible_power_ups =[Shield(), Pluma(),Excavadora()]
+        possible_power_ups =[Pluma()]
+        #possible_power_ups =[Shield(), Pluma(),Excavadora()]
         power_up = random.choice(possible_power_ups)
         self.when_appears += random.randint(150,250)
         self.power_ups.append(power_up)
