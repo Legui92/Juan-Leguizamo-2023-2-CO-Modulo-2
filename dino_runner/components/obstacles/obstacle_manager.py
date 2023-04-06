@@ -31,12 +31,12 @@ class ObstacleManager:
                 elif game.player.type == EXCAVADORA_TYPE:
                     game.playing = False
                     game.death_count +=1
-                    #self.death_sound.play()                                  
+                    self.death_sound.play()                                  
                 else:
                     pygame.time.delay(1000)
                     game.death_count +=1
                     game.playing = False
-                    #self.death_sound.play()
+                    self.death_sound.play()
                     break
                     
 

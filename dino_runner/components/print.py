@@ -20,8 +20,8 @@ class Print_message:
     def draw(self, screen):
         screen.blit(self.text, self.text_rect)
 
-    def update_message(self, message, POS_X,POS_Y):  
-        self.text = self.font.render(message, True, (0,0,0))
+    def update_message(self, message, POS_X,POS_Y,tupla):  
+        self.text = self.font.render(message, True, tupla)
         self.text_rect = self.text.get_rect()
         self.text_rect.center=(POS_X,POS_Y)
         

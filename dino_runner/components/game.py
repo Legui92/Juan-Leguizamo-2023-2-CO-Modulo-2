@@ -10,6 +10,8 @@ from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 class Game:
     GAME_SPEED = 20
+    TIME_PER_DAY = 200
+
     def __init__(self):
         pygame.mixer.init()
         pygame.init()
@@ -18,6 +20,7 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
+        self.background_dark = False
         self.game_speed = self.GAME_SPEED
         self.x_pos_bg = 0
         self.y_pos_bg = 380
@@ -31,14 +34,17 @@ class Game:
         self.score = 0
         self.high_score = 0
         self.power_up_manager = PowerUpManager()
+        self.time=0
 
     def execute(self):
         self.runnig = True
         while self.runnig:
             if not self.playing:              
                 self.show_menu()
+                self.time =0
                 self.player.type = DEFAULT_TYPE
                 self.player.has_power_up = False
+                self.background_dark=False
         pygame.display.quit()
         pygame.quit()
         
@@ -47,6 +53,7 @@ class Game:
         self.reset_game()
         # Game loop: events - update - draw
         pygame.mixer.music.load("dino_runner/assets/Other/fumarato.ogg")
+        #pygame.mixer.music.load("dino_runner/assets/Other/js4e.mp3")
         pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
         self.playing = True
@@ -87,6 +94,16 @@ class Game:
 
     def draw_background(self):
         image_width = BG.get_width()
+        self.time +=1
+        if self.time >= self.TIME_PER_DAY:
+            self.time = 0
+            self.background_dark = False if self.background_dark else True
+
+        if self.background_dark:   
+            self.screen.fill((0,0,0))   
+        else:
+            self.screen.fill((255,255,255))
+
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
         self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
         if self.x_pos_bg <= -image_width:
@@ -104,11 +121,11 @@ class Game:
         else:
             self.menu.update_message('Game over. Press any key to restart...')
             #High score print
-            self.print_message.update_message(f'Your score: {self.score}',550,370) # print(message, pos_x,pos_y)
+            self.print_message.update_message(f'Your score: {self.score}',550,370,(0,0,0)) # print(message, pos_x,pos_y)
             self.print_message.draw(self.screen)
-            self.print_message.update_message(f'Highest score: {self.high_score}',550,410)
+            self.print_message.update_message(f'Highest score: {self.high_score}',550,410,(0,0,0))
             self.print_message.draw(self.screen)
-            self.print_message.update_message(f'Total deaths: {self.death_count}',550,450)
+            self.print_message.update_message(f'Total deaths: {self.death_count}',550,450,(0,0,0))
             self.menu.draw(self.screen)
             self.print_message.draw(self.screen)
         self.screen.blit(ICON,(half_screen_width-50,half_screen_height-140))
@@ -118,19 +135,38 @@ class Game:
 
     def update_score(self):
         self.score +=1
+        
         if self.score % 100 == 0 and self.game_speed < 500:
             self.game_speed += 2
         if self.score > self.high_score:
             self.high_score = self.score
+        
+            
     
     def draw_score(self):
-        font = pygame.font.Font(FONT_STYLE, 30)
-        text = font.render(f'score: {self.score}', True,(0,0,0))
-        text_rect = text.get_rect()
-        text_rect.center=(1000,50)
-        self.print_message.update_message(f'High score: {self.high_score}',970,90) # print(message, pos_x,pos_y)
-        self.print_message.draw(self.screen)
-        self.screen.blit(text, text_rect)
+        if self.time >=self.TIME_PER_DAY:
+            self.background_dark = False if self.background_dark else True
+            #NIGHT
+        if self.background_dark:
+            font = pygame.font.Font(FONT_STYLE, 30)
+            text = font.render(f'score: {self.score}', True,(255,255,255))
+            text_rect = text.get_rect()
+            text_rect.center=(1000,50)
+            self.print_message.update_message(f'High score: {self.high_score}',970,90,(255,255,255)) # print(message, pos_x,pos_y)
+            self.print_message.draw(self.screen)
+            self.screen.blit(text, text_rect)
+
+        else:
+            #DAY
+            font = pygame.font.Font(FONT_STYLE, 30)
+            text = font.render(f'score: {self.score}', True,(0,0,0))
+            text_rect = text.get_rect()
+            text_rect.center=(1000,50)
+            self.print_message.update_message(f'High score: {self.high_score}',970,90,(0,0,0)) # print(message, pos_x,pos_y)
+            self.print_message.draw(self.screen)
+            self.screen.blit(text, text_rect)
+            
+            
 
 
     def reset_game(self):
@@ -138,6 +174,7 @@ class Game:
         self.power_up_manager.reset()
         self.obstacle_manager.reset_obstacles()
         self.score = 0
+        self.time=0
         self.game_speed = self.GAME_SPEED
 
 
@@ -146,8 +183,19 @@ class Game:
             time_to_show = round((self.player.power_time_up-pygame.time.get_ticks())/1000,2)
 
             if time_to_show >=0:
-                self.print_message.update_message(f"{self.player.type.capitalize()} enabled for {time_to_show} seconds", 550,50)
-                self.print_message.draw(self.screen)
+                if self.time >=self.TIME_PER_DAY:
+                    self.background_dark = False if self.background_dark else True
+                if self.background_dark:
+                    #Night
+                    self.print_message.update_message(f"{self.player.type.capitalize()} enabled for {time_to_show} seconds", 550,50,(255,255,255))
+                    self.print_message.draw(self.screen)
+                    
+                else:
+                    #Day
+                    self.print_message.update_message(f"{self.player.type.capitalize()} enabled for {time_to_show} seconds", 550,50,(0,0,0))
+                    self.print_message.draw(self.screen)
+                    
+
             else:
                 self.player.has_power_up = False
                 self.player.type = DEFAULT_TYPE    
