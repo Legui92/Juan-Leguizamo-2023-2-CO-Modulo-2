@@ -13,8 +13,8 @@ class PowerUpManager:
         self.duration = random.randint(3,5)
 
     def generate_power_up(self):
-        possible_power_ups =[Pluma()]
-        #possible_power_ups =[Shield(), Pluma(),Excavadora()]
+        #possible_power_ups =[Pluma()]
+        possible_power_ups =[Shield(), Pluma(),Excavadora()]
         power_up = random.choice(possible_power_ups)
         self.when_appears += random.randint(150,250)
         self.power_ups.append(power_up)
@@ -26,6 +26,7 @@ class PowerUpManager:
         for power_up in self.power_ups:
             power_up.update(game.game_speed,self.power_ups)
             if game.player.dino_rect.colliderect(power_up.rect):
+                game.coins +=1
                 power_up.start_time=pygame.time.get_ticks()
                 game.player.type = power_up.type
                 game.player.has_power_up = True

@@ -8,6 +8,7 @@ from dino_runner.components.menu import Menu
 from dino_runner.components.print import Print_message
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
+
 class Game:
     GAME_SPEED = 20
     TIME_PER_DAY = 200
@@ -32,6 +33,7 @@ class Game:
         self.runnig = False
         self.death_count = 0
         self.score = 0
+        self.coins = 0
         self.high_score = 0
         self.power_up_manager = PowerUpManager()
         self.time=0
@@ -119,7 +121,7 @@ class Game:
         if self.death_count ==0:
             self.menu.draw(self.screen)
         else:
-            self.menu.update_message('Game over. Press any key to restart...')
+            self.menu.update_message('Game over. Press K_P0 to go to the shop or other key to restart...')
             #High score print
             self.print_message.update_message(f'Your score: {self.score}',550,370,(0,0,0)) # print(message, pos_x,pos_y)
             self.print_message.draw(self.screen)
@@ -135,11 +137,14 @@ class Game:
 
     def update_score(self):
         self.score +=1
-        
         if self.score % 100 == 0 and self.game_speed < 500:
             self.game_speed += 2
         if self.score > self.high_score:
             self.high_score = self.score
+        if self.coins == 10:
+            pass
+            #ponerle power up
+            #self.coins = 0
         
             
     
@@ -152,7 +157,9 @@ class Game:
             text = font.render(f'score: {self.score}', True,(255,255,255))
             text_rect = text.get_rect()
             text_rect.center=(1000,50)
-            self.print_message.update_message(f'High score: {self.high_score}',970,90,(255,255,255)) # print(message, pos_x,pos_y)
+            self.print_message.update_message(f'high score: {self.high_score}',970,85,(255,255,255)) 
+            self.print_message.draw(self.screen)
+            self.print_message.update_message(f'coins: {self.coins}',1010,120,(255,255,255))
             self.print_message.draw(self.screen)
             self.screen.blit(text, text_rect)
 
@@ -162,7 +169,9 @@ class Game:
             text = font.render(f'score: {self.score}', True,(0,0,0))
             text_rect = text.get_rect()
             text_rect.center=(1000,50)
-            self.print_message.update_message(f'High score: {self.high_score}',970,90,(0,0,0)) # print(message, pos_x,pos_y)
+            self.print_message.update_message(f'high score: {self.high_score}',970,85,(0,0,0)) # print(message, pos_x,pos_y)
+            self.print_message.draw(self.screen)
+            self.print_message.update_message(f'coins: {self.coins}',1010,120,(0,0,0))
             self.print_message.draw(self.screen)
             self.screen.blit(text, text_rect)
             
@@ -199,3 +208,21 @@ class Game:
             else:
                 self.player.has_power_up = False
                 self.player.type = DEFAULT_TYPE    
+
+    def go_shop(self):
+        half_screen_height = SCREEN_HEIGHT//2
+        top_screen = half_screen_width + 200
+        half_screen_width = SCREEN_WIDTH//2
+        self.menu.reset_screen_color(self.screen)
+
+        if self.death_count ==0:
+            self.menu.draw(self.screen)
+        else:
+            self.print_message.update_message(f'Welcome to the shop',half_screen_width,top_screen,(0,0,0))
+            self.print_message.draw(self.screen)
+            self.print_message.update_message(f'You have {self.coins} coins',half_screen_width,top_screen+50,(0,0,0))
+            self.print_message.draw(self.screen)
+            
+            
+        self.print_message.update(self)
+        self.menu.update(self)
