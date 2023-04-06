@@ -29,8 +29,12 @@ class Menu:
             if event.type == pygame.QUIT:
                 game.running = False
                 game.playing = False
+            
             elif event.type == pygame.KEYDOWN:
-                game.run()
+                if event.key == pygame.K_KP0:
+                    game.go_shop()
+                else:
+                    game.run()
 
     def update_message(self, message):
         self.text = self.font.render(message, True, (0,0,0))

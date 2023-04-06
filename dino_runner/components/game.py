@@ -6,6 +6,7 @@ from dino_runner.components.cloud import Cloud
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.menu import Menu
 from dino_runner.components.print import Print_message
+from dino_runner.components.print_rules import Print_rules
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 
@@ -14,6 +15,8 @@ class Game:
     TIME_PER_DAY = 200
 
     def __init__(self):
+        self.half_screen_height = SCREEN_HEIGHT//2
+        self.half_screen_width = SCREEN_WIDTH//2
         pygame.mixer.init()
         pygame.init()
         pygame.display.set_caption(TITLE)
@@ -31,6 +34,7 @@ class Game:
         self.menu = Menu('Press any key to start...', self.screen)
         self.print_message= Print_message('Press any key to restart...',self.screen)
         self.runnig = False
+        self.print_rules=Print_rules('message',self.screen)
         self.death_count = 0
         self.score = 0
         self.coins = 0
@@ -93,7 +97,6 @@ class Game:
         pygame.display.update()
         
 
-
     def draw_background(self):
         image_width = BG.get_width()
         self.time +=1
@@ -120,8 +123,22 @@ class Game:
 
         if self.death_count ==0:
             self.menu.draw(self.screen)
+            self.print_rules.update_message(f'Power ups:(Shield,Feather,Excavator) ',550,370,(255,0,0)) # print(message, pos_x,pos_y)
+            self.print_rules.draw(self.screen)
+            self.print_rules.update_message(f'SHIELD your are immune for # seconds ',250,450,(0,0,0)) # print(message, pos_x,pos_y)
+            self.print_rules.draw(self.screen)
+            self.print_rules.update_message(f'FEATHER you win a jump boost  for # seconds ',250,500,(0,0,0)) # print(message, pos_x,pos_y)
+            self.print_rules.draw(self.screen)
+            self.print_rules.update_message(f'EXCAVATOR DRILL press Ctrl to use for # seconds ',260,550,(0,0,0)) # print(message, pos_x,pos_y)
+            self.print_rules.draw(self.screen)
+            self.print_rules.update_message(f'If you pick 10 coins the next power up',850,480,(0,0,255)) # print(message, pos_x,pos_y)
+            self.print_rules.draw(self.screen)
+            self.print_rules.update_message(f'lasts longer',850,510,(0,0,255)) # print(message, pos_x,pos_y)
+            self.print_rules.draw(self.screen)
+
         else:
-            self.menu.update_message('Game over. Press K_P0 to go to the shop or other key to restart...')
+            #self.menu.update_message('Game over. Press K_P0 to go to the shop or other key to restart...')
+            self.menu.update_message('Game over. Press any key to restart...')
             #High score print
             self.print_message.update_message(f'Your score: {self.score}',550,370,(0,0,0)) # print(message, pos_x,pos_y)
             self.print_message.draw(self.screen)
@@ -132,6 +149,7 @@ class Game:
             self.print_message.draw(self.screen)
         self.screen.blit(ICON,(half_screen_width-50,half_screen_height-140))
         self.print_message.update(self)
+        self.print_rules.update(self)
         self.menu.update(self)
 
 
@@ -141,10 +159,9 @@ class Game:
             self.game_speed += 2
         if self.score > self.high_score:
             self.high_score = self.score
-        if self.coins == 10:
-            pass
+        if self.coins > 10:
             #ponerle power up
-            #self.coins = 0
+            self.coins = 0
         
             
     
@@ -210,19 +227,15 @@ class Game:
                 self.player.type = DEFAULT_TYPE    
 
     def go_shop(self):
-        half_screen_height = SCREEN_HEIGHT//2
-        top_screen = half_screen_width + 200
-        half_screen_width = SCREEN_WIDTH//2
-        self.menu.reset_screen_color(self.screen)
-
+        self.top_screen = self.half_screen_width + 200 
+        self.screen.fill((255,255,255))    
         if self.death_count ==0:
             self.menu.draw(self.screen)
         else:
-            self.print_message.update_message(f'Welcome to the shop',half_screen_width,top_screen,(0,0,0))
+            self.print_message.update_message(f'Welcome to the shop',self.half_screen_width,self.top_screen,(0,0,0))
             self.print_message.draw(self.screen)
-            self.print_message.update_message(f'You have {self.coins} coins',half_screen_width,top_screen+50,(0,0,0))
+            self.print_message.update_message(f'You have {self.coins} coins',self.half_screen_width,self.top_screen+100,(0,0,0))
             self.print_message.draw(self.screen)
-            
-            
         self.print_message.update(self)
         self.menu.update(self)
+    

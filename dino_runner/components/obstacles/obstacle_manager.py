@@ -25,7 +25,7 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
                 if game.player.type == SHIELD_TYPE:
-                    game.coins +=1
+                    #game.coins +=1
                     self.obstacles.remove(obstacle)
                 elif game.player.type == PLUMA_TYPE:
                     game.playing=False
